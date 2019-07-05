@@ -36,6 +36,8 @@ public class FormActivity extends AppCompatActivity {
         titleEditText.setText(title);
         String desc1 = preferences.getString("Task_desc", " ");
         descriptionEditText.setText(desc1);
+        String sizeText = preferences.getString("Task_textSize", " ");
+        textSize.setText(sizeText);
 
         if(getSupportActionBar()!=null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,7 +62,7 @@ public class FormActivity extends AppCompatActivity {
 //        Log.d("lolol", sizeOfText + " ");
         editor.putString("Task_title", title );
         editor.putString("Task_desc", desc);
-        editor.putString("Task_desc", sizeOfText);
+        editor.putString("Task_textSize", sizeOfText);
         editor.apply();
         finish();
 
@@ -75,6 +77,12 @@ public class FormActivity extends AppCompatActivity {
         Task task= new Task(title,description, sizeOfText);
         intent.putExtra(RESULT_KEY,task);
         setResult(RESULT_OK, intent);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FormActivity.this);
+        SharedPreferences.Editor editor= preferences.edit();
+        editor.putString("Task_title", "");
+        editor.putString("Task_desc", "");
+        editor.putString("Task_textSize", "");
+        editor.apply();
         finish();
 
 
