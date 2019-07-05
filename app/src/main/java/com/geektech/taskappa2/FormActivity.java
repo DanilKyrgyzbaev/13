@@ -75,18 +75,15 @@ public class FormActivity extends AppCompatActivity {
         String sizeOfText = textSize.getText().toString();
         Log.d("tag12", title + " " + description + " " + sizeOfText);
         Task task= new Task(title,description, sizeOfText);
-        intent.putExtra(RESULT_KEY,task);
-        setResult(RESULT_OK, intent);
+        App.getDatabase().taskDao().insert(task);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FormActivity.this);
         SharedPreferences.Editor editor= preferences.edit();
         editor.putString("Task_title", "");
         editor.putString("Task_desc", "");
         editor.putString("Task_textSize", "");
         editor.apply();
+        setResult(RESULT_OK);
         finish();
-
-
-
     }
 
 

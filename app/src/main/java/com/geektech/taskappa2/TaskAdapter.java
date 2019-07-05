@@ -3,20 +3,20 @@ package com.geektech.taskappa2;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> {
 
-    ArrayList<Task> arrayList;
+    List<Task> list;
 
-    public TaskAdapter(){
-        arrayList=new ArrayList<>();
+    public TaskAdapter(List<Task> list) {
+        this.list = list;
     }
 
     @NonNull
@@ -31,13 +31,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        myViewHolder.onBind(arrayList.get(i));
+        myViewHolder.onBind(list.get(i));
 
     }
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return list.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -56,15 +56,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
 
         }
         public void onBind(Task task){
-
             this.task=task;
             titleTextView.setText(task.title);
             descriptionTextView.setText(task.description);
-            titleTextView.setTextSize(Integer.parseInt(task.textSize));
-            descriptionTextView.setTextSize(Integer.parseInt(task.textSize));
-            textSize.setText("Размер шрифта - " + task.textSize);
-            textSize.setTextSize(Integer.parseInt(task.textSize));
-            Log.d("textSize", task.textSize + " ");
+//            titleTextView.setTextSize(Integer.parseInt(task.textSize));
+//            descriptionTextView.setTextSize(Integer.parseInt(task.textSize));
+//            textSize.setText("Размер шрифта - " + task.textSize);
+//            textSize.setTextSize(Integer.parseInt(task.textSize));
+//            Log.d("textSize", task.textSize + " ");
 
         }
     }
