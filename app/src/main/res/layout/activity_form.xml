@@ -5,28 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/design_default_color_primary"
     tools:context=".FormActivity">
 
+    <TextView
+        android:textColor="#fff"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:background="@drawable/bg_et"
+        android:layout_marginBottom="100px"
+        android:layout_gravity="center"
+        android:text="TASK APP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <EditText
+        android:textColor="#fff"
+        android:layout_margin="5dp"
     android:id="@+id/editTitle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:hint="Title "
+        android:textColorHint="#fff"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/bg_et"
+        android:padding="10dp"
     />
 
     <EditText
+        android:textColor="#fff"
+        android:layout_margin="5dp"
         android:id="@+id/editDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description "
+        android:textColorHint="#fff"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/bg_et"
+        android:padding="10dp"
         />
     <EditText
+        android:textColor="#fff"
+        android:layout_margin="5dp"
         android:id="@+id/editTextSize"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Text Size"
+        android:textColorHint="#fff"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/bg_et"
+        android:padding="10dp"
         />
     <LinearLayout
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -35,13 +69,23 @@
             android:layout_height="wrap_content"
             android:onClick="onClickCancel"
             android:layout_weight="1"
+            android:background="@drawable/bg_button"
+            android:textColor="#fff"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
             android:text="Отмена"/>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onClickSave"
             android:layout_weight="1"
+            android:background="@drawable/bg_button"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:layout_margin="5dp"
             android:text="Сохранить"/>
+
     </LinearLayout>
 
 </LinearLayout>

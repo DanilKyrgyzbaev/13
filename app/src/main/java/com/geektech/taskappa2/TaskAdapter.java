@@ -85,7 +85,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
 //            textSize.setText("Размер шрифта - " + task.textSize);
 //            textSize.setTextSize(Integer.parseInt(task.textSize));
 //            Log.d("textSize", task.textSize + " ");
-
         }
     }
 }
