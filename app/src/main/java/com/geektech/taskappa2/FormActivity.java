@@ -17,6 +17,7 @@ public class FormActivity extends AppCompatActivity {
     EditText titleEditText;
     EditText descriptionEditText;
     EditText textSize;
+    Task task;
     public static String RESULT_KEY= "result_key";
 
 
@@ -29,20 +30,24 @@ public class FormActivity extends AppCompatActivity {
         descriptionEditText= findViewById(R.id.editDesc);
         textSize = findViewById(R.id.editTextSize);
 
+        task = (Task) getIntent().getSerializableExtra("task");
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FormActivity.this);
+        if(task != null){
+            titleEditText.setText(task.getTitle());
+            descriptionEditText.setText(task.getDescription());
+        }
 
-        String title= preferences.getString("Task_title"," ");
-        titleEditText.setText(title);
-        String desc1 = preferences.getString("Task_desc", " ");
-        descriptionEditText.setText(desc1);
-        String sizeText = preferences.getString("Task_textSize", " ");
-        textSize.setText(sizeText);
+//
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FormActivity.this);
+//        String title= preferences.getString("Task_title"," ");
+//        titleEditText.setText(title);
+//        String desc1 = preferences.getString("Task_desc", " ");
+//        descriptionEditText.setText(desc1);
+//        String sizeText = preferences.getString("Task_textSize", " ");
+//        textSize.setText(sizeText);
 
         if(getSupportActionBar()!=null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
 
     @Override
@@ -69,20 +74,26 @@ public class FormActivity extends AppCompatActivity {
     }
 
     public void onClickSave(View view) {
-        Intent intent = new Intent();
         String title= titleEditText.getText().toString();
         String description= descriptionEditText.getText().toString();
         String sizeOfText = textSize.getText().toString();
+        if(task != null){
+            task.setTitle(title);
+            task.setDescription(description);
+            App.getDatabase().taskDao().update(task);
+        } else {
+            Task task = new Task(title, description, sizeOfText);
+            task.setTitle(title);
+            task.setDescription(description);
+            App.getDatabase().taskDao().insert(task);
+        }
         Log.d("tag12", title + " " + description + " " + sizeOfText);
-        Task task= new Task(title,description, sizeOfText);
-        App.getDatabase().taskDao().insert(task);
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FormActivity.this);
-        SharedPreferences.Editor editor= preferences.edit();
-        editor.putString("Task_title", "");
-        editor.putString("Task_desc", "");
-        editor.putString("Task_textSize", "");
-        editor.apply();
-        setResult(RESULT_OK);
+//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(FormActivity.this);
+//        SharedPreferences.Editor editor= preferences.edit();
+//        editor.putString("Task_title", "");
+//        editor.putString("Task_desc", "");
+//        editor.putString("Task_textSize", "");
+//        editor.apply();
         finish();
     }
 

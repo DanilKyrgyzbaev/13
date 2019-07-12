@@ -1,12 +1,15 @@
 package com.geektech.taskappa2;
 
+import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -75,11 +78,43 @@ public class MainActivity extends AppCompatActivity
         list = new ArrayList<>();
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        list.addAll(App.getDatabase().taskDao().getAll());
         taskAdapter = new TaskAdapter(list);
         recyclerView.setAdapter(taskAdapter);
-        for(Task task : list)
-            Log.e("TAG", "task = " + task.getTitle());
+        App.getDatabase().taskDao().getAll().observe(this, new Observer<List<Task>>() {
+            @Override
+            public void onChanged(@Nullable List<Task> tasks) {
+                list.clear();
+                list.addAll(tasks);
+                taskAdapter.notifyDataSetChanged();
+            }
+        });
+        taskAdapter.setClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Task task = list.get(pos);
+                Intent intent = new Intent(MainActivity.this, FormActivity.class);
+                intent.putExtra("task", task);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(int pos) {
+                showAlert(list.get(pos));
+            }
+        });
+    }
+
+
+    private void showAlert(final Task task) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to delete \"" +  task.getTitle() + "\" ?")
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        App.getDatabase().taskDao().delete(task);
+                    }
+                }).setCancelable(true).create().show();
     }
 
     @Override
@@ -139,14 +174,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == 100){
-            if(resultCode == RESULT_OK){
-                list.clear();
-                list.addAll(App.getDatabase().taskDao().getAll());
-                taskAdapter.notifyDataSetChanged();
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        if(requestCode == 100){
+//            if(resultCode == RESULT_OK){
+//                list.clear();
+//                list.addAll(App.getDatabase().taskDao().getAll());
+//                taskAdapter.notifyDataSetChanged();
+//            }
+//        }
+//    }
 }
